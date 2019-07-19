@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <script src='https://d3js.org/d3.v5.min.js'></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="div_ToolTip"></div>
+
 <style> rect {fill: lightblue; stroke: black;}  </style>
 	<head>
-		<title>CSC 484 Data Viz Final Assignment</title>
+		<title>CSC 498 Data Viz Final Assignment</title>
 		<!-- link to main stylesheet -->
 		<link rel="stylesheet" type="text/css" href="/css/main.css">
 	</head>
@@ -11,7 +15,7 @@
 		<div class="container">
     		<div class="blurb">
         		<h1>Increasing your Homes Energy Efficiency</h1>
-				<p>CSC 484 Final Assignment</p>
+				<p>CSC 498 Final Assignment</p>
                 <p>
                 <iframe width="600" height="350" src="https://www.youtube.com/embed/sFEhqztf4Rw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                  </p>
@@ -39,7 +43,7 @@ console.log(data)
 // Create the rectangles for the bar chart and maps them to Data values
 d3.select('svg')
   .append('g')
-      .attr('id', 'bar chart')
+      .attr('id', 'barchart')
   .attr("transform", "translate(50,50)")
   .selectAll('rect')
   .data(data)
@@ -49,12 +53,9 @@ d3.select('svg')
       .attr('x', function(d,i) {return xs(d.Date);})
       .attr('y', function(d) {return ys(d.Usage);})
       .attr('width',33.3333)
-      .attr('height',function(d) {return 500 - ys(d.Usage);})
-      .on("mouseover", mouseover)
-      .on("mousemove", mousemove)
-      .on("mouseout", mouseout);
+      .attr('height',function(d) {return 500 - ys(d.Usage);});
 
-// Create Tile
+// Create Title
 d3.select('body').select('svg')
       .append("text")  
       .attr("x", 300)
@@ -79,7 +80,7 @@ d3.select('body').select('svg')
       .attr("y", 15)
       .style("text-anchor", "middle")
       .style("font-family", "sans-serif")
-      .text("Daily Energy Used(kW/h)"); 
+      .text("Daily Energy Used (kW/h)"); 
   
 // Create X axis
 d3.select('svg')
@@ -98,31 +99,34 @@ d3.select('body').select('svg')
       .text("Month"); 
 
 // Define the div for the tooltip
+var svg_customContent = d3.select("#div_ToolTip")
 
-var div = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("display", "none")
-     .text("I'm a Tool!");
-
-function mouseover() {
-  div.style("display", "inline");
-}
-
-function mousemove() {
-  div
-      .text(d3.event.pageX + ", " + d3.event.pageY)
-      .style("left", (d3.event.pageX - 34) + "py")
-      .style("top", (d3.event.pageY - 12) + "px");
-}
-
-function mouseout() {
-  div.style("display", "none");
-  
-}       
-
+// create a tooltip
+var tooltip2 = d3.select("#div_ToolTip")
+  .append("div")
+    .style("position", "absolute")
+    .style("visibility", "hidden")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .html("<p>I'm a tooltip written in HTML</p>");
+    
+d3.select("#barchart")
+  .on("mouseover", function(){return tooltip2.style("visibility", "visible");})
+  .on("mousemove", function(){return tooltip2.style("top", (event.pageY)+"px").style("left",(event.pageX)+"px");})
+  .on("mouseout", function(){return tooltip2.style("visibility", "hidden");});    
+    
 } 
  
 </script>
-</body>	
-<p><a href="/2016">Go to 2016</a> </p>		
+
+<body>
+		<div class="container">
+    		<div class="blurb">
+				<p> <a href="/2016">Go to 2016</a> </p>	                
+</body> 
+
 </html>
+
