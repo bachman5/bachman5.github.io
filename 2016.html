@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <script src='https://d3js.org/d3.v5.min.js'></script>
-<style> rect {fill: orange; stroke: black;}  </style>
+<style> rect {fill: lightblue; stroke: black;}  </style>
 	<head>
 		<title>CSC 484 Data Viz Final Assignment</title>
 		<!-- link to main stylesheet -->
@@ -12,7 +12,9 @@
     		<div class="blurb">
         		<h1>Increasing your Homes Energy Efficiency</h1>
 				<p>CSC 484 Final Assignment</p>
-
+                <p>
+                 <iframe width="600" height="350" src="https://www.youtube.com/embed/jF3rlmd-bs4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                 </p>
 		</footer>
 	</body> 
 
@@ -21,23 +23,29 @@
 </svg>
 <script>
 async function init() {
+
 const data = await d3.csv('https://raw.githubusercontent.com/bachman5/CSC484/master/Scene%203.csv');
+
 ydomain = [0,100];
 yrange = [500,0];
 xdomain = ['Jan 16', 'Feb 16', 'Mar 16', 'Apr 16', 'May 16', 'Jun 16', 'Jul 16', 'Aug 16', 'Sep 16', 'Oct 16', 'Nov 16', 'Dec 16'];
 xrange = [0,500];
+
 var xs = d3.scaleBand().domain(xdomain).range(xrange);
 var ys = d3.scaleLinear().domain(ydomain).range(yrange);
+
 console.log(data)  
+
 // Create the rectangles for the bar chart and maps them to Data values
 d3.select('svg')
   .append('g')
-      .attr('class', 'bar chart')
+      .attr('id', 'bar chart')
   .attr("transform", "translate(50,50)")
   .selectAll('rect')
   .data(data)
   .enter()
   .append('rect')
+      .attr('class','bar')
       .attr('x', function(d,i) {return xs(d.Date);})
       .attr('y', function(d) {return ys(d.Usage);})
       .attr('width',33.3333)
@@ -45,48 +53,76 @@ d3.select('svg')
       .on("mouseover", mouseover)
       .on("mousemove", mousemove)
       .on("mouseout", mouseout);
+
+// Create Tile
+d3.select('body').select('svg')
+      .append("text")  
+      .attr("x", 300)
+      .attr("y", 25)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+       .style("font-size", "20")
+      .text("2016 Average Daily Energy Usage"); 
     
-// Create and Y axis
+// Create Y axis
 d3.select('svg')
     .append('g')
-    .attr('class', 'y axis')
+    .attr('id', 'yaxis')
     .attr("transform", "translate(50,50)")
-    .call(d3.axisLeft(ys))
-//    .append("text")
-//      .attr("transform", "rotate(-90)")
-//     .attr("y", 6)
-//      .attr("dy", ".71em")
-//      .style("text-anchor", "end")
-//      .text("Power");  
+    .call(d3.axisLeft(ys));
+    
+//Label Y axis
+d3.select('body').select('svg')
+      .append("text") 
+      .attr("transform", "rotate(-90)") 
+      .attr("x", -300)
+      .attr("y", 15)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+      .text("Daily Energy Used (kW/h)"); 
   
-// Create and X axis
+// Create X axis
 d3.select('svg')
     .append('g')
-    .attr('class', 'x axis')
+    .attr('id', 'xaxis')
     .attr("transform", "translate(50,550)")
     .call(d3.axisBottom(xs));
-//      .attr("x", 500)
-//      .attr("dx", ".71em")
-//      .style("text-anchor", "end")
-//      .text("Month"); 
+
+//Label X axis
+d3.select('body').select('svg')
+      .append("text")  
+      .attr("x", 300)
+      .attr("y", 590)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+      .text("Month"); 
+
 // Define the div for the tooltip
+
 var div = d3.select("body").append("div")
     .attr("class", "tooltip")
-    .style("display", "none");
+    .style("display", "none")
+     .text("I'm a Tool!");
+
 function mouseover() {
   div.style("display", "inline");
 }
+
 function mousemove() {
   div
       .text(d3.event.pageX + ", " + d3.event.pageY)
       .style("left", (d3.event.pageX - 34) + "py")
       .style("top", (d3.event.pageY - 12) + "px");
 }
+
 function mouseout() {
   div.style("display", "none");
   
 }       
+
 } 
  
 </script>
-</body>
+</body>	
+ <p> &nbsp &nbsp &nbsp &nbsp &nbsp<a href="/index">Go to 2015</a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <a href="/2017">Go to 2017</a> </p>		
+</html>
