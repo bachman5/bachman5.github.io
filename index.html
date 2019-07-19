@@ -12,8 +12,9 @@
     		<div class="blurb">
         		<h1>Increasing your Homes Energy Efficiency</h1>
 				<p>CSC 484 Final Assignment</p>
-			        <p><a href="/2016">Go to 2016</a> </p>
-
+                <p>
+                <iframe width="600" height="350" src="https://www.youtube.com/embed/sFEhqztf4Rw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                 </p>
 		</footer>
 	</body> 
 
@@ -38,12 +39,13 @@ console.log(data)
 // Create the rectangles for the bar chart and maps them to Data values
 d3.select('svg')
   .append('g')
-      .attr('class', 'bar chart')
+      .attr('id', 'bar chart')
   .attr("transform", "translate(50,50)")
   .selectAll('rect')
   .data(data)
   .enter()
   .append('rect')
+      .attr('class','bar')
       .attr('x', function(d,i) {return xs(d.Date);})
       .attr('y', function(d) {return ys(d.Usage);})
       .attr('width',33.3333)
@@ -51,36 +53,56 @@ d3.select('svg')
       .on("mouseover", mouseover)
       .on("mousemove", mousemove)
       .on("mouseout", mouseout);
+
+// Create Tile
+d3.select('body').select('svg')
+      .append("text")  
+      .attr("x", 300)
+      .attr("y", 25)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+       .style("font-size", "20")
+      .text("2015 Average Daily Energy Usage"); 
     
-// Create and Y axis
+// Create Y axis
 d3.select('svg')
     .append('g')
-    .attr('class', 'y axis')
+    .attr('id', 'yaxis')
     .attr("transform", "translate(50,50)")
-    .call(d3.axisLeft(ys))
-//    .append("text")
-//      .attr("transform", "rotate(-90)")
-//     .attr("y", 6)
-//      .attr("dy", ".71em")
-//      .style("text-anchor", "end")
-//      .text("Power");  
+    .call(d3.axisLeft(ys));
+    
+//Label Y axis
+d3.select('body').select('svg')
+      .append("text") 
+      .attr("transform", "rotate(-90)") 
+      .attr("x", -300)
+      .attr("y", 15)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+      .text("Daily Energy Used(kW/h)"); 
   
-// Create and X axis
+// Create X axis
 d3.select('svg')
     .append('g')
-    .attr('class', 'x axis')
+    .attr('id', 'xaxis')
     .attr("transform", "translate(50,550)")
     .call(d3.axisBottom(xs));
-//      .attr("x", 500)
-//      .attr("dx", ".71em")
-//      .style("text-anchor", "end")
-//      .text("Month"); 
+
+//Label X axis
+d3.select('body').select('svg')
+      .append("text")  
+      .attr("x", 300)
+      .attr("y", 590)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+      .text("Month"); 
 
 // Define the div for the tooltip
 
 var div = d3.select("body").append("div")
     .attr("class", "tooltip")
-    .style("display", "none");
+    .style("display", "none")
+     .text("I'm a Tool!");
 
 function mouseover() {
   div.style("display", "inline");
