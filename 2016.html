@@ -3,7 +3,7 @@
 <script src='https://d3js.org/d3.v5.min.js'></script>
 <style> rect {fill: orange; stroke: black;}  </style>
 	<head>
-		<title>CSC 484 Data Viz Final Assignment</title>
+		<title>CSC 498 Data Viz Final Assignment</title>
 		<!-- link to main stylesheet -->
 		<link rel="stylesheet" type="text/css" href="/css/main.css">
 	</head>
@@ -11,7 +11,7 @@
 		<div class="container">
     		<div class="blurb">
         		<h1>Increasing your Homes Energy Efficiency</h1>
-				<p>CSC 484 Final Assignment</p>
+				<p>CSC 498 Final Assignment</p>
                 <p>
                  <iframe width="600" height="350" src="https://www.youtube.com/embed/jF3rlmd-bs4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                  </p>
@@ -95,8 +95,45 @@ d3.select('body').select('svg')
       .attr("y", 590)
       .style("text-anchor", "middle")
       .style("font-family", "sans-serif")
+       .style("font-color", "red")
       .text("Month"); 
-
+   
+// July Annotation
+d3.select('body').select('svg')
+    .append('g')
+    .attr('id', 'Annotation1')
+      .append("text")  
+      .attr("x", 225)
+      .attr("y", 75)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+      .text("$377 Electric Bill -->");   
+      
+// October Annotation
+d3.select('body').select('svg')
+    .append('g')
+    .attr('id', 'Annotation2')
+      .append("text")  
+      .attr("x", 506)
+      .attr("y", 275)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+      .text("Switched to LED Bulbs"); 
+      
+// Change July Annotation from White to Red
+ d3.select("#Annotation1")
+     .style("fill", "white")
+     .transition()
+     .delay(20000)
+     .style("fill", "Red");   
+      
+// Change October Annotation from White to Green
+ d3.select("#Annotation2")
+     .style("fill", "white")
+     .transition()
+     .delay(42000)
+     .style("fill", "Green");   
+      
 // Define the div for the tooltip
 
 var div = d3.select("body").append("div")
