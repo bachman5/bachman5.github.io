@@ -8,9 +8,96 @@
 	<body>
 		<div class="container">
     		<div class="blurb">
-        		<h1>Hi there, I'm Nick Bachman!</h1>
-				<p>I'm best known as the horrible cop from <em>A Touch of Evil</em> Don't trust me. <a href="/about">Read more about my life...</a></p>
+        		<h1>Increasing your Homes Energy Efficiency</h1>
+				<p>CSC 484 Final Assignment</p>
 
 		</footer>
-	</body>
+	</body> 
+
+<body onload='init()'>
+<svg width=600 height=600>
+</svg>
+<script>
+async function init() {
+
+const data = await d3.csv('https://raw.githubusercontent.com/bachman5/CSC484/master/Scene%202.csv');
+
+ydomain = [0,100];
+yrange = [500,0];
+xdomain = ['Jan 15', 'Feb 15', 'Mar 15', 'Apr 15', 'May 15', 'Jun 15', 'Jul 15', 'Aug 15', 'Sep 15', 'Oct 15', 'Nov 15', 'Dec 15'];
+xrange = [0,500];
+
+var xs = d3.scaleBand().domain(xdomain).range(xrange);
+var ys = d3.scaleLinear().domain(ydomain).range(yrange);
+
+console.log(data)  
+
+// Create the rectangles for the bar chart and maps them to Data values
+d3.select('svg')
+  .append('g')
+      .attr('class', 'bar chart')
+  .attr("transform", "translate(50,50)")
+  .selectAll('rect')
+  .data(data)
+  .enter()
+  .append('rect')
+      .attr('x', function(d,i) {return xs(d.Date);})
+      .attr('y', function(d) {return ys(d.Usage);})
+      .attr('width',33.3333)
+      .attr('height',function(d) {return 500 - ys(d.Usage);})
+      .on("mouseover", mouseover)
+      .on("mousemove", mousemove)
+      .on("mouseout", mouseout);
+    
+// Create and Y axis
+d3.select('svg')
+    .append('g')
+    .attr('class', 'y axis')
+    .attr("transform", "translate(50,50)")
+    .call(d3.axisLeft(ys))
+//    .append("text")
+//      .attr("transform", "rotate(-90)")
+//     .attr("y", 6)
+//      .attr("dy", ".71em")
+//      .style("text-anchor", "end")
+//      .text("Power");  
+  
+// Create and X axis
+d3.select('svg')
+    .append('g')
+    .attr('class', 'x axis')
+    .attr("transform", "translate(50,550)")
+    .call(d3.axisBottom(xs));
+//      .attr("x", 500)
+//      .attr("dx", ".71em")
+//      .style("text-anchor", "end")
+//      .text("Month"); 
+
+// Define the div for the tooltip
+
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("display", "none");
+
+function mouseover() {
+  div.style("display", "inline");
+}
+
+function mousemove() {
+  div
+      .text(d3.event.pageX + ", " + d3.event.pageY)
+      .style("left", (d3.event.pageX - 34) + "py")
+      .style("top", (d3.event.pageY - 12) + "px");
+}
+
+function mouseout() {
+  div.style("display", "none");
+  
+}       
+
+} 
+ 
+</script>
+</body>	
+		
 </html>
