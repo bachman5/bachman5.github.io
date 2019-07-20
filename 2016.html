@@ -13,7 +13,7 @@
         		<h1>Increasing your Homes Energy Efficiency</h1>
 				<p>CSC 498 Final Assignment</p>
                 <p>
-                 <iframe width="600" height="350" src="https://www.youtube.com/embed/jF3rlmd-bs4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                 <iframe width="600" height="350" src="https://www.youtube.com/embed/jF3rlmd-bs4?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                  </p>
 		</footer>
 	</body> 
@@ -34,7 +34,40 @@ xrange = [0,500];
 var xs = d3.scaleBand().domain(xdomain).range(xrange);
 var ys = d3.scaleLinear().domain(ydomain).range(yrange);
 
-console.log(data)  
+// Create a tooltip
+var Tooltip = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px");
+
+  // Function that change the tooltip 
+  var mouseover = function(d) {
+    Tooltip
+      .style("opacity", 1)
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1)
+  }
+  var mousemove = function(d) {
+    Tooltip
+      .style("top", (event.pageY)+"px")
+      .style("left",(event.pageX)+"px")
+      .html("Monthly Bill <br> = " + d.Bill);
+  }
+  
+  var mouseleave = function(d) {
+    Tooltip
+      .style("opacity", 0)
+    d3.select(this)
+      .style("stroke", "none")
+      .style("opacity", 0.8)
+  }
 
 // Create the rectangles for the bar chart and maps them to Data values
 d3.select('svg')
@@ -52,9 +85,9 @@ d3.select('svg')
       .attr('height',function(d) {return 500 - ys(d.Usage);})
       .on("mouseover", mouseover)
       .on("mousemove", mousemove)
-      .on("mouseout", mouseout);
+      .on("mouseout", mouseleave);
 
-// Create Tile
+// Create Title
 d3.select('body').select('svg')
       .append("text")  
       .attr("x", 300)
@@ -95,7 +128,6 @@ d3.select('body').select('svg')
       .attr("y", 590)
       .style("text-anchor", "middle")
       .style("font-family", "sans-serif")
-       .style("font-color", "red")
       .text("Month"); 
    
 // July Annotation
@@ -133,33 +165,10 @@ d3.select('body').select('svg')
      .transition()
      .delay(42000)
      .style("fill", "Green");   
-      
-// Define the div for the tooltip
-
-var div = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("display", "none")
-     .text("I'm a Tool!");
-
-function mouseover() {
-  div.style("display", "inline");
-}
-
-function mousemove() {
-  div
-      .text(d3.event.pageX + ", " + d3.event.pageY)
-      .style("left", (d3.event.pageX - 34) + "py")
-      .style("top", (d3.event.pageY - 12) + "px");
-}
-
-function mouseout() {
-  div.style("display", "none");
-  
-}       
-
+       
 } 
  
 </script>
 </body>	
- <p> &nbsp &nbsp &nbsp &nbsp &nbsp<a href="/index">Go to 2015</a>  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <a href="/2017">Go to 2017</a> </p>		
+ <p> &nbsp &nbsp &nbsp &nbsp &nbsp<a href="/index">CLICK HERE for 2015</a>  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <a href="/2017">CLICK HERE for 201</a> </p>		
 </html>
