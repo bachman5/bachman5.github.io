@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<script src='https://d3js.org/d3.v5.min.js'></script>
+<style> rect {fill: teal; stroke: black;}  </style>
+	<head>
+		<title>CSC 498 Data Viz Final Assignment</title>
+		<!-- link to main stylesheet -->
+		<link rel="stylesheet" type="text/css" href="/css/main.css">
+	</head>
+	<body>
+		<div class="container">
+    		<div class="blurb">
+        		<h1>Increasing your Homes Energy Efficiency</h1>
+				<p>CSC 498 Final Assignment</p>
+                <p>
+                <iframe width="600" height="350" src="https://www.youtube.com/embed/rCt9Jm7tPec?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                 </p>
+		</footer>
+	</body> 
+
+<body onload='init()'>
+<svg width=600 height=600>
+</svg>
+<script>
+async function init() {
+
+const data = await d3.csv('https://raw.githubusercontent.com/bachman5/CSC484/master/Scene%205.csv');
+
+ydomain = [0,100];
+yrange = [500,0];
+xdomain = ['Jan 18', 'Feb 18', 'Mar 18', 'Apr 18', 'May 18', 'Jun 18', 'Jul 18', 'Aug 18', 'Sep 18', 'Oct 18', 'Nov 18', 'Dec 18'];
+xrange = [0,500];
+
+var xs = d3.scaleBand().domain(xdomain).range(xrange);
+var ys = d3.scaleLinear().domain(ydomain).range(yrange);
+
+// Create a tooltip
+var Tooltip = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px");
+
+  // Function that change the tooltip 
+  var mouseover = function(d) {
+    Tooltip
+      .style("opacity", 1)
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1)
+  }
+  var mousemove = function(d) {
+    Tooltip
+      .style("top", (event.pageY)+"px")
+      .style("left",(event.pageX)+"px")
+      .html("Monthly Bill <br> = " + d.Bill);
+  }
+  
+  var mouseleave = function(d) {
+    Tooltip
+      .style("opacity", 0)
+    d3.select(this)
+      .style("stroke", "none")
+      .style("opacity", 0.8)
+  }
+
+// Create the rectangles for the bar chart and maps them to Data values
+d3.select('svg')
+  .append('g')
+      .attr('id', 'bar chart')
+  .attr("transform", "translate(50,50)")
+  .selectAll('rect')
+  .data(data)
+  .enter()
+  .append('rect')
+      .attr('class','bar')
+      .attr('x', function(d,i) {return xs(d.Date);})
+      .attr('y', function(d) {return ys(d.Usage);})
+      .attr('width',33.3333)
+      .attr('height',function(d) {return 500 - ys(d.Usage);})
+      .on("mouseover", mouseover)
+      .on("mousemove", mousemove)
+      .on("mouseout", mouseleave);
+
+// Create Title
+d3.select('body').select('svg')
+      .append("text")  
+      .attr("x", 300)
+      .attr("y", 25)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+       .style("font-size", "20")
+      .text("2018 Average Daily Energy Usage"); 
+    
+// Create Y axis
+d3.select('svg')
+    .append('g')
+    .attr('id', 'yaxis')
+    .attr("transform", "translate(50,50)")
+    .call(d3.axisLeft(ys));
+    
+//Label Y axis
+d3.select('body').select('svg')
+      .append("text") 
+      .attr("transform", "rotate(-90)") 
+      .attr("x", -300)
+      .attr("y", 15)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+      .text("Daily Energy Used (kW/h)"); 
+  
+// Create X axis
+d3.select('svg')
+    .append('g')
+    .attr('id', 'xaxis')
+    .attr("transform", "translate(50,550)")
+    .call(d3.axisBottom(xs));
+
+//Label X axis
+d3.select('body').select('svg')
+      .append("text")  
+      .attr("x", 300)
+      .attr("y", 590)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+      .text("Month"); 
+   
+// Jan Annotation
+d3.select('body').select('svg')
+    .append('g')
+    .attr('id', 'Annotation1')
+      .append("text")  
+      .attr("x", 140)
+      .attr("y", 300)
+      .style("text-anchor", "middle")
+      .style("font-family", "sans-serif")
+      .text("Installed Smart Plugs");      
+  
+// Change July Annotation from White to Red
+ d3.select("#Annotation1")
+     .style("fill", "white")
+     .transition()
+     .delay(30000)
+     .style("fill", "Teal");   
+        
+} 
+ 
+</script>
+</body>	
+ <p> &nbsp &nbsp &nbsp &nbsp &nbsp<a href="/2017">CLICK HERE for 2017</a>  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <a href="/Final">CLICK HERE to See Total Savings</a> </p>		
+</html>
