@@ -2,9 +2,6 @@
 <html>
 <script src='https://d3js.org/d3.v5.min.js'></script>
 
-<!-- Create a div where the graph will take place -->
-<div id="div_ToolTip"></div>
-
 <style> rect {fill: lightblue; stroke: black;}  </style>
 	<head>
 		<title>CSC 498 Data Viz Final Assignment</title>
@@ -17,7 +14,7 @@
         		<h1>Increasing your Homes Energy Efficiency</h1>
 				<p>CSC 498 Final Assignment</p>
                 <p>
-                <iframe width="600" height="350" src="https://www.youtube.com/embed/sFEhqztf4Rw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="600" height="350" src="https://www.youtube.com/embed/sFEhqztf4Rw?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                  </p>
 		</footer>
 	</body> 
@@ -38,7 +35,40 @@ xrange = [0,500];
 var xs = d3.scaleBand().domain(xdomain).range(xrange);
 var ys = d3.scaleLinear().domain(ydomain).range(yrange);
 
-console.log(data)  
+// Create a tooltip
+var Tooltip = d3.select("body")
+    .append("div")
+        .style("position", "absolute")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px");
+
+  // Function that change the tooltip 
+  var mouseover = function(d) {
+    Tooltip
+      .style("opacity", 1)
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1)
+  }
+  var mousemove = function(d) {
+    Tooltip
+      .style("top", (event.pageY)+"px")
+      .style("left",(event.pageX)+"px")
+      .html("Monthly Bill <br> = " + d.Bill);
+  }
+  
+  var mouseleave = function(d) {
+    Tooltip
+      .style("opacity", 0)
+    d3.select(this)
+      .style("stroke", "none")
+      .style("opacity", 0.8)
+  }
 
 // Create the rectangles for the bar chart and maps them to Data values
 d3.select('svg')
@@ -53,7 +83,10 @@ d3.select('svg')
       .attr('x', function(d,i) {return xs(d.Date);})
       .attr('y', function(d) {return ys(d.Usage);})
       .attr('width',33.3333)
-      .attr('height',function(d) {return 500 - ys(d.Usage);});
+      .attr('height',function(d) {return 500 - ys(d.Usage);})
+      .on("mouseover", mouseover)
+      .on("mousemove", mousemove)
+      .on("mouseleave", mouseleave);
 
 // Create Title
 d3.select('body').select('svg')
@@ -97,36 +130,14 @@ d3.select('body').select('svg')
       .style("text-anchor", "middle")
       .style("font-family", "sans-serif")
       .text("Month"); 
-
-// Define the div for the tooltip
-var svg_customContent = d3.select("#div_ToolTip")
-
-// create a tooltip
-var tooltip2 = d3.select("#div_ToolTip")
-  .append("div")
-    .style("position", "absolute")
-    .style("visibility", "hidden")
-    .style("background-color", "white")
-    .style("border", "solid")
-    .style("border-width", "1px")
-    .style("border-radius", "5px")
-    .style("padding", "10px")
-    .html("<p>I'm a tooltip written in HTML</p>");
-    
-d3.select("#barchart")
-  .on("mouseover", function(){return tooltip2.style("visibility", "visible");})
-  .on("mousemove", function(){return tooltip2.style("top", (event.pageY)+"px").style("left",(event.pageX)+"px");})
-  .on("mouseout", function(){return tooltip2.style("visibility", "hidden");});    
-    
+   
 } 
- 
 </script>
 
 <body>
 		<div class="container">
     		<div class="blurb">
-				<p> <a href="/2016">Go to 2016</a> </p>	                
+				<p>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <a href="/2016">CLICK NEXT FOR 2016 DATA</a> </p>	                
 </body> 
 
 </html>
-
