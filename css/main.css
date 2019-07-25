@@ -1,7 +1,12 @@
 body {
     margin: 60px auto;
     width: 70%;
+    background-attachment: fixed;  
+    background-repeat: no-repeat; 
+    background-size: cover;
+    background-image: url("b3.jpg");
 }
+
 nav ul, footer ul {
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
     padding: 0px;
@@ -43,3 +48,8 @@ ul.posts li {
     list-style: none;
 }
 
+button{
+    padding: 15px 32px; 
+    font-size: 20px;} 
+    
+button:hover{background-color:grey} 
