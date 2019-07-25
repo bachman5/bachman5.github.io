@@ -81,7 +81,7 @@ d3.select('svg')
   .enter()
   .append('rect')
       .attr('class','bar')
-      .attr('id', function(d,i) {return i;})
+      .attr('id', function(d,i) {return 'r' + i;})
       .attr('x', function(d,i) {return xs(d.Date);})
       .attr('y', function(d) {return ys(d.Usage);})
       .attr('width',100)
@@ -133,11 +133,17 @@ d3.select('body').select('svg')
       .style("font-family", "sans-serif")
       .text("Year"); 
 
-//Change Bar Colors
-   d3.selectAll('rect')
-     .style("fill", "lightblue");     
-     
+//Change First Bar Blue
+d3.select('#r0').style('fill', 'rgb(225, 87, 89)');    
 
+//Change Second Bar Orange
+d3.select('#r1').style('fill', 'rgb(242, 142, 43)'); 
+        
+//Change Bar Colors
+d3.select('#r2').style('fill', 'rgb(237, 201, 72');            
+
+//Change Fourth Bar Green
+d3.select('#r3').style('fill', 'rgb(89, 161, 79)');    
         
 } 
  
