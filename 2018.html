@@ -141,12 +141,13 @@ d3.select('body').select('svg')
       .style("font-family", "sans-serif")
       .text("Installed Smart Plugs");      
   
-// Change July Annotation from White to Red
+// Change July Annotation from Invisible to Visible
  d3.select("#Annotation1")
-     .style("fill", "white")
+     .style("opacity", 0)
      .transition()
      .delay(30000)
-     .style("fill", "Teal");   
+     .style("fill", "Green")
+     .style("opacity", 1);   
         
 } 
  
